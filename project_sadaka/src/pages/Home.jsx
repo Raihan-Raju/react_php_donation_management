@@ -1,12 +1,50 @@
-import React from 'react';
+
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { Map } from '../components/Map';
 import { Sponser } from '../components/Sponsor';
-
+import React, { useState } from "react";
+import axios from "axios";
 
 
 const Home = () => {
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [note, setNote] = useState('')
+  const [phone, setPhone] = useState('')
+  const [address, setAddress] = useState('')
+  const [amount, setAount] = useState('')
+  
+  const save = () => {
+      const formdata = new FormData()
+      formdata.append('firstName', firstName)
+      formdata.append('lastName', lastName)
+      formdata.append('email', email)
+      formdata.append('phone', phone)
+      formdata.append('address', address)
+      formdata.append('amount', amount)
+      formdata.append('note', note)
+      axios.post("http://localhost/react_php_donation_management/php/donnetions/add_donnetion.php", formdata, {
+          headers: {
+              "Content-Type": "multipart/form-data"
+          }
+      })
+          .then((res) => {
+              console.log(res.data);
+              setFirstName('');
+              setLastName('');
+              setNote('');
+              setEmail('');
+              setPhone('');
+              setAount('');
+              setAddress('');
+             
+
+          })
+  }
+
+
     return (
         <>
 
@@ -634,84 +672,91 @@ const Home = () => {
                     Thank you for your donation <span className="title-under" />
                   </h3>
                   <div className="row">
-                    <div className="form-group col-md-12 ">
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="amount"
-                        placeholder="AMOUNT(€)"
-                      />
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="form-group col-md-6">
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="firstName"
-                        placeholder="First name*"
-                      />
-                    </div>
-                    <div className="form-group col-md-6">
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="lastName"
-                        placeholder="Last name*"
-                      />
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="form-group col-md-6">
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="email"
-                        placeholder="Email*"
-                      />
-                    </div>
-                    <div className="form-group col-md-6">
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="phone"
-                        placeholder="Phone"
-                      />
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="form-group col-md-12">
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="address"
-                        placeholder="Address"
-                      />
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="form-group col-md-12">
-                      <textarea
-                        cols={30}
-                        rows={4}
-                        className="form-control"
-                        name="note"
-                        placeholder="Additional note"
-                        defaultValue={""}
-                      />
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="form-group col-md-12">
-                      <button
-                        type="submit"
-                        className="btn btn-primary pull-right"
-                        name="donateNow"
-                      >
-                        DONATE NOW
-                      </button>
-                    </div>
-                  </div>
+                                                <div className="form-group col-md-12">
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        id="amount"
+                                                        onChange={(e) => setAount(e.target.value)}
+                                                        value={amount}
+                                                        placeholder="AMOUNT(€)"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="form-group col-md-6">
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        onChange={(e) => setFirstName(e.target.value)}
+                                                        value={firstName}
+                                                        placeholder="First name*"
+                                                    />
+                                                </div>
+                                                <div className="form-group col-md-6">
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        onChange={(e) => setLastName(e.target.value)}
+                                                        value={lastName}
+                                                        placeholder="Last name*"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="form-group col-md-6">
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        onChange={(e) => setEmail(e.target.value)}
+                                                        value={email}
+                                                        placeholder="Email*"
+                                                    />
+                                                </div>
+                                                <div className="form-group col-md-6">
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        onChange={(e) => setPhone(e.target.value)}
+                                                        value={phone}
+                                                        placeholder="Phone"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="form-group col-md-12">
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        onChange={(e) => setAddress(e.target.value)}
+                                                        value={address}
+                                                        placeholder="Address"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="form-group col-md-12">
+                                                    <textarea
+                                                        cols={30}
+                                                        rows={4}
+                                                        className="form-control"
+                                                        onChange={(e) => setNote(e.target.value)}
+                                                        value={note}
+                                                        placeholder="Additional note"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="form-group col-md-12">
+                                                    <button
+                                                        type="submit"
+                                                        className="btn btn-primary pull-right"
+                                                        onClick={save}
+                                                    >
+                                                        DONATE NOW
+                                                    </button>
+                                                </div>
+                                            </div>
                 </form>
               </div>
             </div>
